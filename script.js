@@ -226,26 +226,22 @@ var addHomeButton = function() {
 /*
  * Main function to initialize the map, add baselayer, and add markers
  */
-var initMap = function() {
-
-  map = L.map('map', {
-    center: mapCenter,
+function initMap() {
+  const map = new google.maps.Map(document.getElementById("map"), {
     zoom: mapZoom,
-    tap: false, // to avoid issues in Safari, disable tap
-    zoomControl: false,
+    center: {lat:mapCenter[0], lng:mapCenter[1]},
+    mapTypeControl: true,
+    mapTypeControlOptions: {
+      style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+      position: google.maps.ControlPosition.TOP_CENTER,
+    },
+    scaleControl: true,
+    streetViewControl: true,
+    streetViewControlOptions: {
+      position: google.maps.ControlPosition.RIGHT_BOTTOM,
+    },
+    fullscreenControl: true,
   });
-
-  // Add zoom control to the bottom-right corner
-  L.control.zoom({ position: 'bottomright' }).addTo(map);
-
-
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: 'abcd',
-    maxZoom: 19
-  }).addTo(map);
-
-  loadData(dataLocation);
 
   // Add data & GitHub links
   map.attributionControl.setPrefix('Download <a href="'

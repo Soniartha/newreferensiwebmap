@@ -147,7 +147,7 @@ var addMarkers = function(data) {
       {
         icon: L.icon({
           iconUrl: d.Icon,
-          iconSize: [ iconWidth, iconHeight ],
+          // iconSize: [ iconWidth, iconHeight ],
           iconAnchor: [ iconWidth/2, iconHeight/2 ], // middle of icon represents point center
           className: 'br1',
         }),
@@ -226,23 +226,25 @@ var addHomeButton = function() {
 /*
  * Main function to initialize the map, add baselayer, and add markers
  */
-function initMap() {
-  const map = new google.maps.Map(document.getElementById("map"), {
+var initMap = function() {
+
+  map = L.map('map', {
+    center: mapCenter,
     zoom: mapZoom,
-    center: {lat:mapCenter[0], lng:mapCenter[1]},
-    mapTypeControl: true,
-    mapTypeControlOptions: {
-      style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-      position: google.maps.ControlPosition.TOP_CENTER,
-    },
-    scaleControl: true,
-    streetViewControl: true,
-    streetViewControlOptions: {
-      position: google.maps.ControlPosition.RIGHT_BOTTOM,
-    },
-    fullscreenControl: true,
+    tap: false, // to avoid issues in Safari, disable tap
+    zoomControl: false,
   });
 
+  // Add zoom control to the bottom-right corner
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(map);
+
+  loadData(dataLocation);
   // Add data & GitHub links
   map.attributionControl.setPrefix('Download <a href="'
     + dataLocation + '" target="_blank">data</a> or \

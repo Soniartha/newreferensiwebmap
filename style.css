@@ -12,6 +12,10 @@
   }
 }
 
+h1{
+  font-family: 'century gothic';
+  font-weight: bold;
+}
 
 .markerActive {
   border: 4px solid rgba(0,0,0,0.1);

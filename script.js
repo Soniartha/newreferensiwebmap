@@ -155,7 +155,7 @@ var addMarkers = function(data) {
         placeInfo: d
       },
     ).on('click', function(e) {
-      map.flyTo(this._latlng, 15);
+      map.flyTo(this._latlng, 3);
       updateSidebar(this);
     });
 

@@ -228,21 +228,46 @@ var addHomeButton = function() {
  */
 var initMap = function() {
 
-  map = L.map('map', {
+  var map = L.map('map', {
     center: mapCenter,
     zoom: mapZoom,
     tap: false, // to avoid issues in Safari, disable tap
     zoomControl: false,
   });
 
+  map.createPane('pane_OSMStandard_0');
+  map.getPane('pane_OSMStandard_0').style.zIndex = 400;
+  var layer_OSMStandard_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    pane: 'pane_OSMStandard_0',
+    opacity: 1.0,
+    attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
+    minZoom: 1,
+    maxZoom: 28,
+    minNativeZoom: 0,
+    maxNativeZoom: 19
+  });
+  layer_OSMStandard_0;
+  map.addLayer(layer_OSMStandard_0);
+
+  map.createPane('pane_GoogleSatellite_1');
+  map.getPane('pane_GoogleSatellite_1').style.zIndex = 401;
+  var layer_GoogleSatellite_1 = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+      pane: 'pane_GoogleSatellite_1',
+      opacity: 1.0,
+      attribution: '<a href="https://www.google.at/permissions/geoguidelines/attr-guide.html">Map data ©2015 Google</a>',
+      minZoom: 1,
+      maxZoom: 28,
+      minNativeZoom: 0,
+      maxNativeZoom: 20
+  });
+  layer_GoogleSatellite_1;
+  map.addLayer(layer_GoogleSatellite_1);
+
   // Add zoom control to the bottom-right corner
   L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: 'abcd',
-    maxZoom: 19
-  }).addTo(map);
+  var baseMaps = {};
+  L.control.layers(baseMaps,{"Peta Dasar (Google Satellite)": layer_GoogleSatellite_1,"Peta Dasar (OSM Standard)": layer_OSMStandard_0}).addTo(map);
 
   loadData(dataLocation);
   // Add data & GitHub links

@@ -1,3 +1,7 @@
+*{
+  font-family: google;
+}
+
 #sidebar {
   z-index: 9999;
   overflow-y: scroll;
@@ -23,8 +27,7 @@
   position: relative;
   left: 15px;
   top: 10px;
-  font-size: 35px;
-  font-family: 'calibri';
+  font-size: 30px;
 }
 
 
